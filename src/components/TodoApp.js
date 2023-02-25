@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import SinglePage from '../routes/SinglePage';
 import Home from '../routes/Home';
 import About from '../routes/About';
 import Login from '../routes/Login';
@@ -10,12 +11,15 @@ import Layout from './Layout';
 
 const TodoApp = () => (
   <Routes>
-    <Route path="/" element={<Layout />} />
-    <Route index element={<Home />} />
-    <Route path="about" element={<About />} />
-    <Route path="login" element={<Login />} />
-    <Route path="profile" element={<Profile />} />
-    <Route path="*" element={<NotMatch />} />
+    <Route path="/" element={<Layout />}>
+      <Route index element={<Home />} />
+      <Route path="about" element={<About />}>
+        <Route path=":slug" element={<SinglePage />} />
+      </Route>
+      <Route path="login" element={<Login />} />
+      <Route path="profile" element={<Profile />} />
+      <Route path="*" element={<NotMatch />} />
+    </Route>
   </Routes>
 );
 
