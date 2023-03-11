@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styles from '../styles/Login.module.scss';
+import { useAuthContext } from '../context/AuthContext';
 
 const Login = () => {
   const [username, setUsername] = useState('');
+  const navigate = useNavigate();
+  const { login } = useAuthContext();
+  const location = useLocation();
+  const from = location.state?.pathname || '/';
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!username) return;
-    console.log(username);
+    login(username);
+    setUsername('');
+    navigate('/', { replace: true });
+    navigate(from, { replace: true });
   };
   return (
     <div className={styles.formWrapper}>

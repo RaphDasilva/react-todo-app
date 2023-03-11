@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react';
 import { FaTrash } from 'react-icons/fa';
 import { AiFillEdit } from 'react-icons/ai';
 import styles from '../styles/TodoItem.module.scss';
+import { useAuthContext } from '../context/AuthContext';
 
 const TodoItem = ({
   ItemProps, handleChange, delTodo, setUpdate,
@@ -12,6 +13,7 @@ const TodoItem = ({
   const handleEditing = () => {
     setEditing(true);
   };
+  const { user } = useAuthContext();
   const handleUpdatedDone = (event) => {
     if (event.key === 'Enter') {
       setUpdate(editInputRef.current.value, ItemProps.id);
@@ -44,7 +46,13 @@ const TodoItem = ({
           {ItemProps.title}
         </span>
         {/* eslint-disable-next-line */}
-        <button type="submit" onClick={handleEditing}><AiFillEdit style={{ color: '#5e5e5e', fontSize: '16px' }} /></button>
+        {user && (
+          <button onClick={handleEditing} type="button">
+            <AiFillEdit
+              style={{ color: '#5e5e5e', fontSize: '16px' }}
+            />
+          </button>
+        )}
         {/* eslint-disable-next-line */}
         <button type="submit" onClick={() => delTodo(ItemProps.id)}><FaTrash style={{ color: '#5e5e5e', fontSize: '16px' }} /></button>
       </div>
